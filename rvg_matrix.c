@@ -29,7 +29,7 @@ rvg_matrix_set_scale(struct rvg_matrix* mat, float scale) {
 }
 
 void 
-rvg_matrix_translate(struct rvg_matrix* mat, float dx, float dy) {
-	mat->e[12] += dx;
-	mat->e[13] += dy;
+rvg_matrix_set_translate(struct rvg_matrix* mat, float x, float y) {
+	mat->e[12] = x;
+	mat->e[13] = y;
 }

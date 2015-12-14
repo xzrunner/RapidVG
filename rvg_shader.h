@@ -26,7 +26,7 @@ void rvg_shader_bind();
 void rvg_shader_unbind();
 
 void rvg_shader_projection(int width, int height);
-void rvg_shader_modelview(float dx, float dy, float scale);
+void rvg_shader_modelview(float x, float y, float scale);
 
 void rvg_shader_type(int type);
 

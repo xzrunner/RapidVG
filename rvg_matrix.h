@@ -19,7 +19,7 @@ struct rvg_matrix {
 void rvg_matrix_identity(struct rvg_matrix* mat);
 
 void rvg_matrix_set_scale(struct rvg_matrix* mat, float scale);
-void rvg_matrix_translate(struct rvg_matrix* mat, float dx, float dy);
+void rvg_matrix_set_translate(struct rvg_matrix* mat, float x, float y);
 
 void rvg_matrix_ortho(struct rvg_matrix* mat, float left, float right, float bottom, float top, float near, float far);
 
