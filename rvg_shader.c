@@ -174,9 +174,9 @@ rvg_shader_projection(int width, int height) {
 }
 
 void 
-rvg_shader_modelview(float x, float y, float scale) {
-	rvg_matrix_set_scale(&SS.modelview_mat, scale);
-	rvg_matrix_set_translate(&SS.modelview_mat, x * scale, y * scale);
+rvg_shader_modelview(float x, float y, float sx, float sy) {
+	rvg_matrix_set_scale(&SS.modelview_mat, sx, sy);
+	rvg_matrix_set_translate(&SS.modelview_mat, x * sx, y * sy);
 	SS.modelview_dirty = true;
 }
 

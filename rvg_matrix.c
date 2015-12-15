@@ -23,9 +23,9 @@ rvg_matrix_ortho(struct rvg_matrix* mat, float left, float right, float bottom, 
 }
 
 void 
-rvg_matrix_set_scale(struct rvg_matrix* mat, float scale) {
-	mat->e[0] = scale;
-	mat->e[5] = scale;
+rvg_matrix_set_scale(struct rvg_matrix* mat, float sx, float sy) {
+	mat->e[0] = sx;
+	mat->e[5] = sy;
 }
 
 void 
