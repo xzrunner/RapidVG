@@ -2,15 +2,26 @@
 #include "rvg_shader.h"
 #include "rvg_math.h"
 
-#include <gl/glew.h>
+// #include <gl/glew.h>
 
 static int CIRCLE_SEGMENTS = 16;
+
+#define TYPE_POINTS			0x0000
+#define TYPE_LINES			0x0001
+#define TYPE_LINE_LOOP		0x0002
+#define TYPE_LINE_STRIP		0x0003
+#define TYPE_TRIANGLES		0x0004
+#define TYPE_TRIANGLE_STRIP	0x0005
+#define TYPE_TRIANGLE_FAN	0x0006
+#define TYPE_QUADS			0x0007
+#define TYPE_QUAD_STRIP		0x0008
+#define TYPE_POLYGON		0x0009
 
 void 
 rvg_point(float x, float y, float size) {
 	rvg_shader_type(TYPE_POINTS);
 
-	glPointSize(size);
+//	glPointSize(size);
 
 	float coords[2];
 	coords[0] = x;
