@@ -6,7 +6,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-#include <gl/glew.h>
+#include <opengl.h>
 
 #define STRINGIFY(A)  #A
 #include "normal_shader.vert"
