@@ -1,4 +1,4 @@
-static const char* normal_frag = STRINGIFY(
+static const char* shader_frag = STRINGIFY(
 
 precision highp float;
 

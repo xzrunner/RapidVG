@@ -6,11 +6,12 @@
 #include <stdbool.h>
 #include <string.h>
 
-#include <opengl.h>
+//#include <opengl.h>
+#include <gl/glew.h>
 
 #define STRINGIFY(A)  #A
-#include "normal_shader.vert"
-#include "normal_shader.frag"
+#include "shader.vert"
+#include "shader.frag"
 
 #define ATTRIB_VERTEX	10
 #define ATTRIB_COLOR	11

@@ -1,4 +1,4 @@
-static const char* normal_vert = STRINGIFY(
+static const char* shader_vert = STRINGIFY(
 
 precision highp float;
 
