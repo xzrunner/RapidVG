@@ -14,8 +14,8 @@ static int CIRCLE_SEGMENTS = 16;
 #define TYPE_TRIANGLE_STRIP	0x0005
 #define TYPE_TRIANGLE_FAN	0x0006
 #define TYPE_QUADS			0x0007
-#define TYPE_QUAD_STRIP		0x0008
-#define TYPE_POLYGON		0x0009
+// #define TYPE_QUAD_STRIP		0x0008
+// #define TYPE_POLYGON		0x0009
 
 void 
 rvg_point(float x, float y, float size) {
