@@ -92,3 +92,9 @@ rvg_circle(float x, float y, float radius, bool filling) {
 		rvg_shader_add_vertices(coords, CIRCLE_SEGMENTS + 2);
 	}
 }
+
+void 
+rvg_triangles(float* coords, int count) {
+	rvg_shader_type(TYPE_TRIANGLES);
+	rvg_shader_add_vertices(coords, count);
+}
