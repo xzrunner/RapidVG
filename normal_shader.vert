@@ -1,5 +1,7 @@
 static const char* normal_vert = STRINGIFY(
 
+precision highp float;
+
 attribute vec4 position;
 attribute vec4 color;   
 
