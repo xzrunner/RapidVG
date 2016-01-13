@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <string.h>
 
 #include <opengl.h>
@@ -204,7 +205,11 @@ _commit() {
 
 void 
 rvg_shader_color(int color) {
-	SS.color = color;
+	uint8_t r = ((color >> 24) & 0xff);
+	uint8_t g = ((color >> 16) & 0xff);
+	uint8_t b = ((color >> 8) & 0xff);
+	uint8_t a = (color & 0xff);
+	SS.color = (a << 24) | (b << 16) | (g << 8) | r;
 }
 
 void 
