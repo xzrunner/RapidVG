@@ -3,10 +3,6 @@
 
 #include <sl_shape.h>
 
-// #include <gl/glew.h>
-
-static int CIRCLE_SEGMENTS = 16;
-
 #define TYPE_POINTS			0x0000
 #define TYPE_LINES			0x0001
 #define TYPE_LINE_LOOP		0x0002
@@ -43,6 +39,28 @@ rvg_line(float x0, float y0, float x1, float y1) {
 }
 
 void 
+rvg_lines(const float* positions, int count) {
+	sl_shape_type(TYPE_LINES);
+	sl_shape_draw(positions, count);
+}
+
+void 
+rvg_polyline(const float* positions, int count, bool loop) {
+	if (loop) {
+		sl_shape_type(TYPE_LINE_LOOP);
+	} else {
+		sl_shape_type(TYPE_LINE_STRIP);
+	}
+	sl_shape_draw(positions, count);
+}
+
+void 
+rvg_triangles(const float* positions, int count) {
+	sl_shape_type(TYPE_TRIANGLES);
+	sl_shape_draw(positions, count);
+}
+
+void 
 rvg_rect(float xmin, float ymin, float xmax, float ymax, bool filling) {
 	if (filling) {
 		sl_shape_type(TYPE_QUADS);
@@ -59,38 +77,33 @@ rvg_rect(float xmin, float ymin, float xmax, float ymax, bool filling) {
 }
 
 void 
-rvg_set_circle_segments(int segments) {
-	CIRCLE_SEGMENTS = segments;
-}
-
-void 
-rvg_circle(float x, float y, float radius, bool filling) {
-	const float k_increment = 2.0f * PI / CIRCLE_SEGMENTS;
+rvg_circle(float x, float y, float radius, bool filling, int segments) {
+	const float k_increment = 2.0f * PI / segments;
 	float theta = 0.0f;
 	if (!filling) {
 		sl_shape_type(TYPE_LINE_LOOP);
-		float coords[CIRCLE_SEGMENTS * 2];
+		float coords[segments * 2];
 		int ptr = 0;
-		for (int i = 0; i < CIRCLE_SEGMENTS; ++i) {
+		for (int i = 0; i < segments; ++i) {
 			coords[ptr++] = x + cosf(theta) * radius;
 			coords[ptr++] = y + sinf(theta) * radius;
 			theta += k_increment;
 		}
-		sl_shape_draw(coords, CIRCLE_SEGMENTS);
+		sl_shape_draw(coords, segments);
 	} else {
 		sl_shape_type(TYPE_TRIANGLE_FAN);
-		float coords[CIRCLE_SEGMENTS * 2 + 4];
+		float coords[segments * 2 + 4];
 		int ptr = 0;
 		coords[ptr++] = x;
 		coords[ptr++] = y;
-		for (int i = 0; i < CIRCLE_SEGMENTS; ++i) {
+		for (int i = 0; i < segments; ++i) {
 			coords[ptr++] = x + cosf(theta) * radius;
 			coords[ptr++] = y + sinf(theta) * radius;
 			theta += k_increment;
 		}
 		coords[ptr++] = coords[2];
 		coords[ptr++] = coords[3];
-		sl_shape_draw(coords, CIRCLE_SEGMENTS + 2);
+		sl_shape_draw(coords, segments + 2);
 	}
 }
 

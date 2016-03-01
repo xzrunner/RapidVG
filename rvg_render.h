@@ -11,11 +11,14 @@ extern "C"
 void rvg_point(float x, float y, float size);
 
 void rvg_line(float x0, float y0, float x1, float y1);
+void rvg_lines(const float* positions, int count);
+void rvg_polyline(const float* positions, int count, bool loop);
+
+void rvg_triangles(const float* positions, int count);
 
 void rvg_rect(float xmin, float ymin, float xmax, float ymax, bool filling);
 
-void rvg_set_circle_segments(int segments);
-void rvg_circle(float x, float y, float radius, bool filling);
+void rvg_circle(float x, float y, float radius, bool filling, int segments);
 
 void rvg_triangles(float* coords, int count);
 
