@@ -11,14 +11,12 @@
 #define TYPE_TRIANGLE_STRIP	0x0005
 #define TYPE_TRIANGLE_FAN	0x0006
 #define TYPE_QUADS			0x0007
-// #define TYPE_QUAD_STRIP		0x0008
+// #define TYPE_QUAD_STRIP	0x0008
 // #define TYPE_POLYGON		0x0009
 
 void 
 rvg_point(float x, float y) {
 	sl_shape_type(TYPE_POINTS);
-
-//	glPointSize(size);
 
 	float coords[2];
 	coords[0] = x;
@@ -46,12 +44,19 @@ rvg_lines(const float* positions, int count) {
 
 void 
 rvg_polyline(const float* positions, int count, bool loop) {
-	if (loop) {
-		sl_shape_type(TYPE_LINE_LOOP);
-	} else {
-		sl_shape_type(TYPE_LINE_STRIP);
+	if (count < 2) {
+		return;
 	}
+
+	sl_shape_type(TYPE_LINE_STRIP);
+	sl_shape_draw_node(positions[0], positions[1], true);
 	sl_shape_draw(positions, count);
+	if (loop) {
+		sl_shape_draw_node(positions[0], positions[1], false);
+		sl_shape_draw_node(positions[0], positions[1], true);
+	} else {
+		sl_shape_draw_node(positions[(count - 1) * 2], positions[(count - 1) * 2 + 1], true);
+	}
 }
 
 void 
@@ -65,7 +70,8 @@ rvg_rect(float xmin, float ymin, float xmax, float ymax, bool filling) {
 	if (filling) {
 		sl_shape_type(TYPE_QUADS);
 	} else {
-		sl_shape_type(TYPE_LINE_LOOP);
+		sl_shape_type(TYPE_LINE_STRIP);
+		sl_shape_draw_node(xmin, ymin, true);
 	}
 
  	float coords[8];
@@ -74,6 +80,11 @@ rvg_rect(float xmin, float ymin, float xmax, float ymax, bool filling) {
  	coords[4] = xmax; coords[5] = ymax;
  	coords[6] = xmin; coords[7] = ymax;
  	sl_shape_draw(coords, 4);
+
+	if (!filling) {
+		sl_shape_draw_node(xmin, ymin, false);
+		sl_shape_draw_node(xmin, ymin, true);
+	}
 }
 
 void 
@@ -81,32 +92,57 @@ rvg_circle(float x, float y, float radius, bool filling, int segments) {
 	const float k_increment = 2.0f * PI / segments;
 	float theta = 0.0f;
 	if (!filling) {
-		sl_shape_type(TYPE_LINE_LOOP);
-		float coords[segments * 2];
+		sl_shape_type(TYPE_LINE_STRIP);
+		sl_shape_draw_node(x + radius, y, true);
+		float coords[segments * 2 + 2];
 		int ptr = 0;
-		for (int i = 0; i < segments; ++i) {
+		for (int i = 0; i <= segments; ++i) {
 			coords[ptr++] = x + cosf(theta) * radius;
 			coords[ptr++] = y + sinf(theta) * radius;
 			theta += k_increment;
 		}
-		sl_shape_draw(coords, segments);
+		sl_shape_draw(coords, segments + 1);
+		sl_shape_draw_node(x + radius, y, true);
 	} else {
-		sl_shape_type(TYPE_TRIANGLE_FAN);
-		float coords[segments * 2 + 4];
+		sl_shape_type(TYPE_TRIANGLE_STRIP);
 		int ptr = 0;
-		coords[ptr++] = x;
-		coords[ptr++] = y;
-		for (int i = 0; i < segments; ++i) {
-			coords[ptr++] = x + cosf(theta) * radius;
-			coords[ptr++] = y + sinf(theta) * radius;
-			theta += k_increment;
+		sl_shape_draw_node(x, y, true);
+		sl_shape_draw_node(x, y, true);
+		if (segments & 0x1) {
+			float coords[segments * 3 + 3];
+			for (int i = 0; i < segments; i += 2) {
+				coords[ptr++] = x;
+				coords[ptr++] = y;
+				coords[ptr++] = x + cosf(theta) * radius;
+				coords[ptr++] = y + sinf(theta) * radius;
+				theta += k_increment;
+				coords[ptr++] = x + cosf(theta) * radius;
+				coords[ptr++] = y + sinf(theta) * radius;
+				theta += k_increment;
+			}
+			sl_shape_draw(coords, (segments * 3 + 3) / 2);
+		} else {
+			float coords[segments * 3 + 4];
+			for (int i = 0; i < segments; i += 2) {
+				coords[ptr++] = x;
+				coords[ptr++] = y;
+				coords[ptr++] = x + cosf(theta) * radius;
+				coords[ptr++] = y + sinf(theta) * radius;
+				theta += k_increment;
+				coords[ptr++] = x + cosf(theta) * radius;
+				coords[ptr++] = y + sinf(theta) * radius;
+				theta += k_increment;
+			}
+			coords[ptr++] = x;
+			coords[ptr++] = y;
+			coords[ptr++] = x + radius;
+			coords[ptr++] = y;
+			sl_shape_draw(coords, segments * 3 / 2 + 2);
 		}
-		coords[ptr++] = coords[2];
-		coords[ptr++] = coords[3];
-		sl_shape_draw(coords, segments + 2);
+		sl_shape_draw_node(x + radius, y, true);
+		sl_shape_draw_node(x + radius, y, true);
 	}
 }
-
 void 
 rvg_triangles(float* coords, int count) {
 	rvg_shader_type(TYPE_TRIANGLES);
