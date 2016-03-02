@@ -8,7 +8,7 @@ extern "C"
 
 #include <stdbool.h>
 
-void rvg_point(float x, float y, float size);
+void rvg_point(float x, float y);
 
 void rvg_line(float x0, float y0, float x1, float y1);
 void rvg_lines(const float* positions, int count);

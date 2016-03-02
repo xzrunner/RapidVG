@@ -15,7 +15,7 @@
 // #define TYPE_POLYGON		0x0009
 
 void 
-rvg_point(float x, float y, float size) {
+rvg_point(float x, float y) {
 	sl_shape_type(TYPE_POINTS);
 
 //	glPointSize(size);
