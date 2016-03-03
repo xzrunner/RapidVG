@@ -1,5 +1,7 @@
 #include "rvg_style.h"
 
+#include <sl_shader.h>
+
 #include <gl/glew.h>
 
 struct state {
@@ -27,6 +29,14 @@ void
 rvg_line_style(enum RVG_LINE_STYLE ls) {
 	if (S.line_style == ls) {
 		return;
+	}
+
+	sl_shader_flush();
+
+	if (ls == LS_DEFAULT) {
+		glDisable(GL_LINE_STIPPLE);
+	} else {
+		glEnable(GL_LINE_STIPPLE);
 	}
 
 	switch (ls) {
