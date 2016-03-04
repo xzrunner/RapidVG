@@ -20,8 +20,6 @@ void rvg_rect(float xmin, float ymin, float xmax, float ymax, bool filling);
 
 void rvg_circle(float x, float y, float radius, bool filling, int segments);
 
-void rvg_triangles(float* coords, int count);
-
 #endif // rapid_vector_graphics_render_h
 
 #ifdef __cplusplus

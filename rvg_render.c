@@ -143,8 +143,3 @@ rvg_circle(float x, float y, float radius, bool filling, int segments) {
 		sl_shape_draw_node(x + radius, y, true);
 	}
 }
-void 
-rvg_triangles(float* coords, int count) {
-	rvg_shader_type(TYPE_TRIANGLES);
-	rvg_shader_add_vertices(coords, count);
-}
