@@ -1,8 +1,8 @@
 #include "rvg_style.h"
 
-#include <sl_shader.h>
+#include <opengl.h>
 
-#include <gl/glew.h>
+#include <sl_shader.h>
 
 struct state {
 	enum RVG_LINE_STYLE line_style;
@@ -17,7 +17,9 @@ rvg_style_init() {
 
 void 
 rvg_point_size(float size) {
+#ifndef __APPLE__
 	glPointSize(size);
+#endif
 }
 
 void 
@@ -27,6 +29,8 @@ rvg_line_width(float width) {
 
 void 
 rvg_line_style(enum RVG_LINE_STYLE ls) {
+#ifndef __APPLE__
+    
 	if (S.line_style == ls) {
 		return;
 	}
@@ -52,4 +56,6 @@ rvg_line_style(enum RVG_LINE_STYLE ls) {
 	}
 
 	S.line_style = ls;
+    
+#endif
 }
