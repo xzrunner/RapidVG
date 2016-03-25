@@ -66,6 +66,12 @@ rvg_triangles(const float* positions, int count) {
 }
 
 void 
+rvg_triangle_strip(const float* positions, int count) {
+	sl_shape_type(TYPE_TRIANGLE_STRIP);
+	sl_shape_draw(positions, count);
+}
+
+void 
 rvg_rect(float xmin, float ymin, float xmax, float ymax, bool filling) {
 	if (filling) {
 		sl_shape_type(TYPE_QUADS);

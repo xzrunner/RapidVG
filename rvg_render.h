@@ -15,6 +15,7 @@ void rvg_lines(const float* positions, int count);
 void rvg_polyline(const float* positions, int count, bool loop);
 
 void rvg_triangles(const float* positions, int count);
+void rvg_triangle_strip(const float* positions, int count);
 
 void rvg_rect(float xmin, float ymin, float xmax, float ymax, bool filling);
 
