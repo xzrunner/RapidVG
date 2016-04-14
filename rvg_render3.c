@@ -133,7 +133,7 @@ rvg_circle3(float x, float y, float z, float radius, bool filling, int segments)
 				coords[ptr++] = z;
 				theta += k_increment;
 			}
-			sl_shape3_draw(coords, (segments * 9 + 9) / 4);
+			sl_shape3_draw(coords, segments * 3 + 3);
 		} else {
 			float coords[segments * 9 / 2 + 6];
 			for (int i = 0; i < segments; i += 2) {
@@ -155,7 +155,7 @@ rvg_circle3(float x, float y, float z, float radius, bool filling, int segments)
 			coords[ptr++] = x + radius;
 			coords[ptr++] = y;
 			coords[ptr++] = z;
-			sl_shape3_draw(coords, segments * 9 / 4 + 3);
+			sl_shape3_draw(coords, segments * 3 / 2 + 2);
 		}
 		sl_shape3_draw_node(x + radius, y, z, true);
 		sl_shape3_draw_node(x + radius, y, z, true);
