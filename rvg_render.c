@@ -1,7 +1,7 @@
 #include "rvg_render.h"
 #include "rvg_math.h"
 
-#include <sl_shape.h>
+#include <c_wrap_sl.h>
 
 #define TYPE_POINTS			0x0000
 #define TYPE_LINES			0x0001

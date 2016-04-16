@@ -2,7 +2,7 @@
 
 #include <opengl.h>
 
-#include <sl_shader.h>
+#include "c_wrap_sl.h"
 
 struct state {
 	enum RVG_LINE_STYLE line_style;
@@ -35,7 +35,7 @@ rvg_line_style(enum RVG_LINE_STYLE ls) {
 		return;
 	}
 
-	sl_shader_flush();
+	sl_flush();
 
 	if (ls == LS_DEFAULT) {
 		glDisable(GL_LINE_STIPPLE);
