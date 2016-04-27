@@ -118,46 +118,18 @@ rvg_circle3(float x, float y, float z, float radius, bool filling, int segments)
 		int ptr = 0;
 		sl_shape3_draw_node(x, y, z, true);
 		sl_shape3_draw_node(x, y, z, true);
-		if (segments & 0x1) {
-			float coords[(segments * 9 + 9) / 2];
-			for (int i = 0; i < segments; i += 2) {
-				coords[ptr++] = x;
-				coords[ptr++] = y;
-				coords[ptr++] = z;
-				coords[ptr++] = x + cosf(theta) * radius;
-				coords[ptr++] = y + sinf(theta) * radius;
-				coords[ptr++] = z;
-				theta += k_increment;
-				coords[ptr++] = x + cosf(theta) * radius;
-				coords[ptr++] = y + sinf(theta) * radius;
-				coords[ptr++] = z;
-				theta += k_increment;
-			}
-			sl_shape3_draw(coords, segments * 3 + 3);
-		} else {
-			float coords[segments * 9 / 2 + 6];
-			for (int i = 0; i < segments; i += 2) {
-				coords[ptr++] = x;
-				coords[ptr++] = y;
-				coords[ptr++] = z;
-				coords[ptr++] = x + cosf(theta) * radius;
-				coords[ptr++] = y + sinf(theta) * radius;
-				coords[ptr++] = z;
-				theta += k_increment;
-				coords[ptr++] = x + cosf(theta) * radius;
-				coords[ptr++] = y + sinf(theta) * radius;
-				coords[ptr++] = z;
-				theta += k_increment;
-			}
+		float coords[(segments + 1) * 6];
+		for (int i = 0; i <= segments; ++i) {
+			coords[ptr++] = x + cosf(theta) * radius;
+			coords[ptr++] = y + sinf(theta) * radius;
+			coords[ptr++] = z;
 			coords[ptr++] = x;
 			coords[ptr++] = y;
 			coords[ptr++] = z;
-			coords[ptr++] = x + radius;
-			coords[ptr++] = y;
-			coords[ptr++] = z;
-			sl_shape3_draw(coords, segments * 3 / 2 + 2);
+			theta += k_increment;
 		}
-		sl_shape3_draw_node(x + radius, y, z, true);
-		sl_shape3_draw_node(x + radius, y, z, true);
+		sl_shape2_draw(coords, (segments + 1) * 3);
+		sl_shape3_draw_node(x, y, z, true);
+		sl_shape3_draw_node(x, y, z, true);
 	}
 }
