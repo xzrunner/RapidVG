@@ -17,19 +17,21 @@ rvg_style_init() {
 
 void 
 rvg_point_size(float size) {
-#ifndef __APPLE__
+#if OPENGLES < 2
 	glPointSize(size);
 #endif
 }
 
 void 
 rvg_line_width(float width) {
+#if OPENGLES < 2
 	glLineWidth(width);
+#endif
 }
 
 void 
 rvg_line_style(enum RVG_LINE_STYLE ls) {
-#ifndef __APPLE__
+#if OPENGLES < 2
     
 	if (S.line_style == ls) {
 		return;
