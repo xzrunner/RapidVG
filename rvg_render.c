@@ -74,7 +74,7 @@ rvg_triangle_strip(const float* positions, int count) {
 void 
 rvg_rect(float xmin, float ymin, float xmax, float ymax, bool filling) {
 	if (filling) {
-		sl_shape2_type(TYPE_QUADS);
+		sl_shape2_type(TYPE_TRIANGLE_FAN);
 	} else {
 		sl_shape2_type(TYPE_LINE_STRIP);
 		sl_shape2_draw_node(xmin, ymin, true);
