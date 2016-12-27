@@ -1,8 +1,7 @@
 #include "rvg_style.h"
 
-#include <opengl.h>
-
-#include "c_wrap_sl.h"
+#include <c_wrap_sl.h>
+#include <c_wrap_ur.h>
 
 struct state {
 	enum RVG_LINE_STYLE line_style;
@@ -17,47 +16,39 @@ rvg_style_init() {
 
 void 
 rvg_point_size(float size) {
-#if OPENGLES < 2
-	glPointSize(size);
-#endif
+	void* rc = sl_get_render_context();
+	ur_set_point_size(rc, size);
 }
 
 void 
 rvg_line_width(float width) {
-#if OPENGLES < 2
-	glLineWidth(width);
-#endif
+	void* rc = sl_get_render_context();
+	ur_set_line_width(rc, width);	
 }
 
 void 
-rvg_line_style(enum RVG_LINE_STYLE ls) {
-#if OPENGLES < 2
-    
+rvg_line_style(enum RVG_LINE_STYLE ls) {    
 	if (S.line_style == ls) {
 		return;
 	}
 
+	void* rc = sl_get_render_context();
+
 	sl_flush();
 
-	if (ls == LS_DEFAULT) {
-		glDisable(GL_LINE_STIPPLE);
-	} else {
-		glEnable(GL_LINE_STIPPLE);
-	}
+	ur_enable_line_stripple(rc, ls != LS_DEFAULT);
 
 	switch (ls) {
 	case LS_DOT:
-		glLineStipple(1, 0x0101);
+		ur_set_line_stripple(rc, 0x0101);
 		break;
 	case LS_DASH:
-		glLineStipple(1, 0x00FF);
+		ur_set_line_stripple(rc, 0x00FF);
 		break;
 	case LS_DOT_DASH:
-		glLineStipple(1, 0x1c47);
+		ur_set_line_stripple(rc, 0x1c47);
 		break; 
 	}
 
 	S.line_style = ls;
-    
-#endif
-}
+  }
