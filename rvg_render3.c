@@ -96,6 +96,13 @@ rvg_rect3(float xmin, float ymin, float xmax, float ymax, float z, bool filling)
 	}
 }
 
+#ifdef _MSC_VER
+#	include <malloc.h>
+#	define ARRAY(type, name, size) type* name = (type*)_alloca((size) * sizeof(type))
+#else
+#	define ARRAY(type, name, size) type name[size]
+#endif
+
 void 
 rvg_circle3(float x, float y, float z, float radius, bool filling, int segments) {
 	const float k_increment = 2.0f * PI / segments;
@@ -103,7 +110,7 @@ rvg_circle3(float x, float y, float z, float radius, bool filling, int segments)
 	if (!filling) {
 		sl_shape3_type(TYPE_LINE_STRIP);
 		sl_shape3_draw_node(x + radius, y, z, true);
-		float coords[segments * 3 + 3];
+		ARRAY(float, coords, segments * 3 + 3);
 		int ptr = 0;
 		for (int i = 0; i <= segments; ++i) {
 			coords[ptr++] = x + cosf(theta) * radius;
@@ -118,7 +125,7 @@ rvg_circle3(float x, float y, float z, float radius, bool filling, int segments)
 		int ptr = 0;
 		sl_shape3_draw_node(x, y, z, true);
 		sl_shape3_draw_node(x, y, z, true);
-		float coords[(segments + 1) * 6];
+		ARRAY(float, coords, (segments + 1) * 6);
 		for (int i = 0; i <= segments; ++i) {
 			coords[ptr++] = x + cosf(theta) * radius;
 			coords[ptr++] = y + sinf(theta) * radius;
