@@ -73,21 +73,33 @@ rvg_triangle_strip(const float* positions, int count) {
 
 void 
 rvg_rect(float xmin, float ymin, float xmax, float ymax, bool filling) {
-	if (filling) {
-		sl_shape2_type(TYPE_TRIANGLE_FAN);
-	} else {
+	if (filling)
+	{
+		sl_shape2_type(TYPE_TRIANGLES);
+
+		float coords[12] = {
+			xmin, ymin,
+			xmax, ymin,
+			xmax, ymax,
+
+			xmin, ymin,
+			xmax, ymax,
+			xmin, ymax,
+		};
+		sl_shape2_draw(coords, 6);
+	}
+	else
+	{
 		sl_shape2_type(TYPE_LINE_STRIP);
 		sl_shape2_draw_node(xmin, ymin, true);
-	}
 
- 	float coords[8];
- 	coords[0] = xmin; coords[1] = ymin;
- 	coords[2] = xmax; coords[3] = ymin;
- 	coords[4] = xmax; coords[5] = ymax;
- 	coords[6] = xmin; coords[7] = ymax;
- 	sl_shape2_draw(coords, 4);
+ 		float coords[8];
+ 		coords[0] = xmin; coords[1] = ymin;
+ 		coords[2] = xmax; coords[3] = ymin;
+ 		coords[4] = xmax; coords[5] = ymax;
+ 		coords[6] = xmin; coords[7] = ymax;
+ 		sl_shape2_draw(coords, 4);
 
-	if (!filling) {
 		sl_shape2_draw_node(xmin, ymin, false);
 		sl_shape2_draw_node(xmin, ymin, true);
 	}
