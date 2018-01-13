@@ -75,24 +75,36 @@ rvg_triangle_strip3(const float* positions, int count) {
 }
 
 void 
-rvg_rect3(float xmin, float ymin, float xmax, float ymax, float z, bool filling) {
-	if (filling) {
-		sl_shape3_type(TYPE_QUADS);
-	} else {
-		sl_shape3_type(TYPE_LINE_STRIP);
-		sl_shape3_draw_node(xmin, ymin, z, true);
+rvg_rect3(float x0, float y0, float x1, float y1, float z, bool filling) {
+	if (filling)
+	{
+		sl_shape3_type(TYPE_TRIANGLES);
+
+		float coords[18] = {
+			x0, y0, z,
+			x1, y0, z,
+			x1, y1, z,
+
+			x1, y1, z,
+			x0, y1, z,
+			x0, y0, z,
+		};
+		sl_shape3_draw(coords, 6);
 	}
+	else
+	{
+		sl_shape3_type(TYPE_LINE_STRIP);
+		sl_shape3_draw_node(x0, y0, z, true);
 
- 	float coords[12];
- 	coords[0] = xmin; coords[1] = ymin; coords[2] = z;
- 	coords[3] = xmax; coords[4] = ymin; coords[5] = z;
- 	coords[6] = xmax; coords[7] = ymax; coords[8] = z;
- 	coords[9] = xmin; coords[10]= ymax; coords[11]= z;
- 	sl_shape3_draw(coords, 4);
+ 		float coords[12];
+ 		coords[0] = x0; coords[1] = y0; coords[2] = z;
+ 		coords[3] = x1; coords[4] = y0; coords[5] = z;
+ 		coords[6] = x1; coords[7] = y1; coords[8] = z;
+ 		coords[9] = x0; coords[10]= y1; coords[11]= z;
+ 		sl_shape3_draw(coords, 4);
 
-	if (!filling) {
-		sl_shape3_draw_node(xmin, ymin, z, false);
-		sl_shape3_draw_node(xmin, ymin, z, true);
+		sl_shape3_draw_node(x0, y0, z, false);
+		sl_shape3_draw_node(x0, y0, z, true);
 	}
 }
 
