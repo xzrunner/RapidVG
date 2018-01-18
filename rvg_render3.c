@@ -75,7 +75,75 @@ rvg_triangle_strip3(const float* positions, int count) {
 }
 
 void 
-rvg_rect3(float x0, float y0, float x1, float y1, float z, bool filling) {
+rvg_rect3_on_x(float y0, float z0, float y1, float z1, float x, bool filling) {
+	if (filling)
+	{
+		sl_shape3_type(TYPE_TRIANGLES);
+
+		float coords[18] = {
+			x, y0, z0,
+			x, y0, z1,
+			x, y1, z1,
+
+			x, y1, z1,
+			x, y1, z0,
+			x, y0, z0,
+		};
+		sl_shape3_draw(coords, 6);
+	}
+	else
+	{
+		sl_shape3_type(TYPE_LINE_STRIP);
+		sl_shape3_draw_node(x, y0, z0, true);
+
+ 		float coords[12];
+ 		coords[0] = x; coords[1] = y0; coords[2] = z0;
+ 		coords[3] = x; coords[4] = y0; coords[5] = z1;
+ 		coords[6] = x; coords[7] = y1; coords[8] = z1;
+ 		coords[9] = x; coords[10]= y1; coords[11]= z0;
+ 		sl_shape3_draw(coords, 4);
+
+		sl_shape3_draw_node(x, y0, z0, false);
+		sl_shape3_draw_node(x, y0, z0, true);
+	}
+}
+
+void 
+rvg_rect3_on_y(float x0, float z0, float x1, float z1, float y, bool filling) {
+	if (filling)
+	{
+		sl_shape3_type(TYPE_TRIANGLES);
+
+		float coords[18] = {
+			x0, y, z0,
+			x1, y, z0,
+			x1, y, z1,
+
+			x1, y, z1,
+			x0, y, z1,
+			x0, y, z0,
+		};
+		sl_shape3_draw(coords, 6);
+	}
+	else
+	{
+		sl_shape3_type(TYPE_LINE_STRIP);
+		sl_shape3_draw_node(x0, y, z0, true);
+
+ 		float coords[12];
+ 		coords[0] = x0; coords[1] = y; coords[2] = z0;
+ 		coords[3] = x1; coords[4] = y; coords[5] = z0;
+ 		coords[6] = x1; coords[7] = y; coords[8] = z1;
+ 		coords[9] = x0; coords[10]= y; coords[11]= z1;
+ 		sl_shape3_draw(coords, 4);
+
+		sl_shape3_draw_node(x0, y, z0, false);
+		sl_shape3_draw_node(x0, y, z0, true);
+	}
+}
+
+void 
+rvg_rect3_on_z(float x0, float y0, float x1, float y1, float z, bool filling) {
 	if (filling)
 	{
 		sl_shape3_type(TYPE_TRIANGLES);
