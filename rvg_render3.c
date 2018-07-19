@@ -14,7 +14,7 @@
 // #define TYPE_QUAD_STRIP	0x0008
 // #define TYPE_POLYGON		0x0009
 
-void 
+void
 rvg_point3(float x, float y, float z) {
 	sl_shape3_type(TYPE_POINTS);
 
@@ -25,10 +25,10 @@ rvg_point3(float x, float y, float z) {
 	sl_shape3_draw(coords, 1);
 }
 
-void 
+void
 rvg_line3(float x0, float y0, float z0, float x1, float y1, float z1) {
 	sl_shape3_type(TYPE_LINES);
-	
+
 	float coords[6];
 	coords[0] = x0;
 	coords[1] = y0;
@@ -36,16 +36,16 @@ rvg_line3(float x0, float y0, float z0, float x1, float y1, float z1) {
 	coords[3] = x1;
 	coords[4] = y1;
 	coords[5] = z1;
-	sl_shape3_draw(coords, 2);	
+	sl_shape3_draw(coords, 2);
 }
 
-void 
+void
 rvg_lines3(const float* positions, int count) {
 	sl_shape3_type(TYPE_LINES);
 	sl_shape3_draw(positions, count);
 }
 
-void 
+void
 rvg_polyline3(const float* positions, int count, bool loop) {
 	if (count < 2) {
 		return;
@@ -62,13 +62,13 @@ rvg_polyline3(const float* positions, int count, bool loop) {
 	}
 }
 
-void 
+void
 rvg_triangles3(const float* positions, int count) {
 	sl_shape3_type(TYPE_TRIANGLES);
 	sl_shape3_draw(positions, count);
 }
 
-void 
+void
 rvg_triangle_strip3(const float* positions, int count) {
 	sl_shape3_type(TYPE_TRIANGLE_STRIP);
 	sl_shape3_draw(positions, count);
@@ -80,7 +80,7 @@ rvg_triangle_fan3(const float* positions, int count) {
 	sl_shape3_draw(positions, count);
 }
 
-void 
+void
 rvg_rect3_on_x(float y0, float z0, float y1, float z1, float x, bool filling) {
 	if (filling)
 	{
@@ -114,7 +114,7 @@ rvg_rect3_on_x(float y0, float z0, float y1, float z1, float x, bool filling) {
 	}
 }
 
-void 
+void
 rvg_rect3_on_y(float x0, float z0, float x1, float z1, float y, bool filling) {
 	if (filling)
 	{
@@ -148,7 +148,7 @@ rvg_rect3_on_y(float x0, float z0, float x1, float z1, float y, bool filling) {
 	}
 }
 
-void 
+void
 rvg_rect3_on_z(float x0, float y0, float x1, float y1, float z, bool filling) {
 	if (filling)
 	{
@@ -189,7 +189,7 @@ rvg_rect3_on_z(float x0, float y0, float x1, float y1, float z, bool filling) {
 #	define ARRAY(type, name, size) type name[size]
 #endif
 
-void 
+void
 rvg_circle3(float x, float y, float z, float radius, bool filling, int segments) {
 	const float k_increment = 2.0f * PI / segments;
 	float theta = 0.0f;
@@ -221,7 +221,7 @@ rvg_circle3(float x, float y, float z, float radius, bool filling, int segments)
 			coords[ptr++] = z;
 			theta += k_increment;
 		}
-		sl_shape2_draw(coords, (segments + 1) * 3);
+		sl_shape3_draw(coords, (segments + 1) * 2);
 		sl_shape3_draw_node(x, y, z, true);
 		sl_shape3_draw_node(x, y, z, true);
 	}
