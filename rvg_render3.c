@@ -74,6 +74,12 @@ rvg_triangle_strip3(const float* positions, int count) {
 	sl_shape3_draw(positions, count);
 }
 
+void
+rvg_triangle_fan3(const float* positions, int count) {
+	sl_shape3_type(TYPE_TRIANGLE_FAN);
+	sl_shape3_draw(positions, count);
+}
+
 void 
 rvg_rect3_on_x(float y0, float z0, float y1, float z1, float x, bool filling) {
 	if (filling)

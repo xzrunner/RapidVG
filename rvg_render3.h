@@ -16,6 +16,7 @@ void rvg_polyline3(const float* positions, int count, bool loop);
 
 void rvg_triangles3(const float* positions, int count);
 void rvg_triangle_strip3(const float* positions, int count);
+void rvg_triangle_fan3(const float* positions, int count);
 
 void rvg_rect3_on_x(float y0, float z0, float y1, float z1, float x, bool filling);
 void rvg_rect3_on_y(float x0, float z0, float x1, float z1, float y, bool filling);
