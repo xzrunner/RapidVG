@@ -7,12 +7,14 @@ extern "C"
 #define rapid_vector_graphics_render_h
 
 #include <stdbool.h>
+#include <stdint.h>
 
 void rvg_point(float x, float y);
 
 void rvg_line(float x0, float y0, float x1, float y1);
 void rvg_lines(const float* positions, int count);
 void rvg_polyline(const float* positions, int count, bool loop);
+void rvg_polyline_with_color(const float* positions, const uint32_t* colors, int count, bool loop);
 
 void rvg_triangles(const float* positions, int count);
 void rvg_triangle_strip(const float* positions, int count);

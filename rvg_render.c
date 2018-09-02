@@ -14,7 +14,7 @@
 // #define TYPE_QUAD_STRIP	0x0008
 // #define TYPE_POLYGON		0x0009
 
-void 
+void
 rvg_point(float x, float y) {
 	sl_shape2_type(TYPE_POINTS);
 
@@ -24,25 +24,25 @@ rvg_point(float x, float y) {
 	sl_shape2_draw(coords, 1);
 }
 
-void 
+void
 rvg_line(float x0, float y0, float x1, float y1) {
 	sl_shape2_type(TYPE_LINES);
-	
+
 	float coords[4];
 	coords[0] = x0;
 	coords[1] = y0;
 	coords[2] = x1;
 	coords[3] = y1;
-	sl_shape2_draw(coords, 2);	
+	sl_shape2_draw(coords, 2);
 }
 
-void 
+void
 rvg_lines(const float* positions, int count) {
 	sl_shape2_type(TYPE_LINES);
 	sl_shape2_draw(positions, count);
 }
 
-void 
+void
 rvg_polyline(const float* positions, int count, bool loop) {
 	if (count < 2) {
 		return;
@@ -59,19 +59,36 @@ rvg_polyline(const float* positions, int count, bool loop) {
 	}
 }
 
-void 
+void
+rvg_polyline_with_color(const float* positions, const uint32_t* colors, int count, bool loop) {
+	if (count < 2) {
+		return;
+	}
+
+	sl_shape2_type(TYPE_LINE_STRIP);
+	sl_shape2_draw_node_with_color(positions[0], positions[1], colors[0], true);
+	sl_shape2_draw_with_color(positions, colors, count);
+	if (loop) {
+		sl_shape2_draw_node_with_color(positions[0], positions[1], colors[0], false);
+		sl_shape2_draw_node_with_color(positions[0], positions[1], colors[0], true);
+	} else {
+		sl_shape2_draw_node_with_color(positions[(count - 1) * 2], positions[(count - 1) * 2 + 1], colors[(count - 1) * 2], true);
+	}
+}
+
+void
 rvg_triangles(const float* positions, int count) {
 	sl_shape2_type(TYPE_TRIANGLES);
 	sl_shape2_draw(positions, count);
 }
 
-void 
+void
 rvg_triangle_strip(const float* positions, int count) {
 	sl_shape2_type(TYPE_TRIANGLE_STRIP);
 	sl_shape2_draw(positions, count);
 }
 
-void 
+void
 rvg_rect(float xmin, float ymin, float xmax, float ymax, bool filling) {
 	if (filling)
 	{
@@ -112,7 +129,7 @@ rvg_rect(float xmin, float ymin, float xmax, float ymax, bool filling) {
 #	define ARRAY(type, name, size) type name[size]
 #endif
 
-void 
+void
 rvg_circle(float x, float y, float radius, bool filling, int segments) {
 	const float k_increment = 2.0f * PI / segments;
 	float theta = 0.0f;
