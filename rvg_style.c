@@ -9,25 +9,25 @@ struct state {
 
 static struct state S;
 
-void 
+void
 rvg_style_init() {
 	S.line_style = LS_DEFAULT;
 }
 
-void 
+void
 rvg_point_size(float size) {
 	void* rc = sl_get_render_context();
 	ur_set_point_size(rc, size);
 }
 
-void 
+void
 rvg_line_width(float width) {
 	void* rc = sl_get_render_context();
-	ur_set_line_width(rc, width);	
+	ur_set_line_width(rc, width);
 }
 
-void 
-rvg_line_style(enum RVG_LINE_STYLE ls) {    
+void
+rvg_line_style(enum RVG_LINE_STYLE ls) {
 	if (S.line_style == ls) {
 		return;
 	}
@@ -47,7 +47,7 @@ rvg_line_style(enum RVG_LINE_STYLE ls) {
 		break;
 	case LS_DOT_DASH:
 		ur_set_line_stripple(rc, 0x1c47);
-		break; 
+		break;
 	}
 
 	S.line_style = ls;
